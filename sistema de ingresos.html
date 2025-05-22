@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Ingreso</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+
+    .user-info {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .user-info img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="login" class="container">
+    <h2>Bienvenido(a)</h2>
+    <form id="login-form">
+      <input type="text" id="user-code" placeholder="Digite documento o código" required>
+      <button type="submit">Ingresar</button>
+    </form>
+    <p id="error-message" class="error" style="display: none;">Usuario no encontrado</p>
+  </div>
+
+  <div id="user-info" class="container" style="display: none;">
+    <h2>Bienvenido(a)</h2>
+    <div class="user-info">
+      <img src="user-profile.jpg" alt="Usuario">
+      <p id="user-details">Cargando detalles...</p>
+    </div>
+    <button onclick="logout()">Cerrar sesión</button>
+  </div>
+
+  <script>
+    const users = {
+      "123456789": {
+        name: "Estudiante",
+        role: "Estudiante - Unidad Regional, Sede Fusagasugá",
+        modality: "Ingeniería de Sistemas y Computación Fusagasugá"
+      },
+      "1000000000": {
+        name: "Nuevo Usuario",
+        role: "Profesor - Facultad de Ingeniería",
+        modality: "Ingeniería Agronómica"
+      }
+    };
+
+    document.getElementById("login-form").addEventListener("submit", function(event) {
+      event.preventDefault();
+      const userCode = document.getElementById("user-code").value;
+      const user = users[userCode];
+
+      if (user) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("user-info").style.display = "block";
+        document.getElementById("user-details").innerHTML = `
+          <strong>Documento:</strong> ${userCode}<br>
+          <strong>Rol:</strong> ${user.role}<br>
+          <strong>Modalidad:</strong> ${user.modality}
+        `;
+      } else {
+        document.getElementById("error-message").style.display = "block";
+      }
+    });
+
+    function logout() {
+      document.getElementById("login").style.display = "block";
+      document.getElementById("user-info").style.display = "none";
+      document.getElementById("user-code").value = "";
+      document.getElementById("error-message").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
